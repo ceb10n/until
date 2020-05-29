@@ -1,3 +1,5 @@
+import pytest
+
 from until import Until
 
 
@@ -43,3 +45,9 @@ class TestUntil:
 
         assert return_val == 10
         assert until.tried_times == 1
+
+    def test_on_fail(self):
+        until = Until(retry_times=10, on_fail=lambda x: [][0])
+
+        with pytest.raises(IndexError):
+            until(lambda: 1/0)()
